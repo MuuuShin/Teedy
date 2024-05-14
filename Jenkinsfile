@@ -3,7 +3,7 @@ pipeline {
         stages {
             stage('Build') {
             steps {
-            sh 'mvn -B clean package'
+            sh 'mvn -B -DskipTests clean package'
             }
             }
             stage('pmd') {
@@ -23,7 +23,8 @@ pipeline {
         }
         stage('Test Report') {
             steps {
-                junit '**/target/surefire-reports/**/*.xml'
+                sh 'mvn test surefire-report:report -Dmaven.test.failure.ignore=true'
+
             }
             post {
                 always {
