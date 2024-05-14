@@ -80,6 +80,7 @@
         <enabled>true</enabled>
       </snapshots>
     </repository>
+    
   </repositories>
 
   <build>
@@ -117,9 +118,117 @@
         <artifactId>jetty-maven-plugin</artifactId>
         <version>${org.eclipse.jetty.jetty-maven-plugin.version}</version>
       </plugin>
+      <plugin>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+        <version>0.8.9</version>
+        <executions>
+        <execution>
+        <goals>
+        <goal>prepare-agent</goal>
+        </goals>
+        </execution>
+        <!-- attached to Maven test phase -->
+        <execution>
+        <id>report</id>
+        <phase>test</phase>
+        <goals>
+        <goal>report</goal>
+        </goals>
+        </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>3.6.3</version>
+        <executions>
+        <execution>
+        <id>aggregate</id>
+        <goals>
+        <goal>aggregate</goal>
+        </goals>
+        <phase>site</phase>
+        </execution>
+        </executions>
+      </plugin>
+      <plugin>
+    
+        <groupId>org.apache.maven.plugins</groupId>
+            
+      <artifactId>maven-project-info-reports-plugin</artifactId>
+          
+        <version>2.7</version>
+        
+      </plugin>
+      
+      <plugin>
+            
+        <groupId>org.apache.maven.plugins</groupId>
+        
+        <artifactId>maven-site-plugin</artifactId>
+            
+      <version>3.3</version>
+          
+      <configuration>
+            
+      <locales>zh_CN</locales>
+        
+        </configuration>
+          
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-pmd-plugin</artifactId>
+        <version>3.21.2</version> <!-- or use version from pluginManagement -->
+        <configuration>
+        <!-- failOnViolation is actually true by default, but can be disabled -->
+        <failOnViolation>false</failOnViolation>
+        <!-- printFailingErrors is pretty useful -->
+        <printFailingErrors>true</printFailingErrors>
+        <rulesets>
+        <ruleset>practice-answer.xml</ruleset>
+        </rulesets>
+        </configuration>
+        <executions>
+        <execution>
+        <goals>
+        <goal>check</goal>
+        </goals>
+        </execution>
+        </executions>
+      </plugin>
+
     </plugins>
   </build>
         
+  <reporting>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>3.6.3</version>
+        <reportSets>
+        <reportSet>
+        <id>aggregate</id>
+        <inherited>false</inherited>
+        <reports>
+        <report>aggregate</report>
+        </reports>
+        </reportSet>
+        <reportSet>
+        <id>default</id>
+        <reports>
+        <report>javadoc</report>
+        </reports>
+        </reportSet>
+        </reportSets>
+      </plugin>
+    </plugins>
+  </reporting>
+
+
   <modules>
     <module>docs-core</module>
     <module>docs-web-common</module>
@@ -501,7 +610,6 @@
         <artifactId>levigo-jbig2-imageio</artifactId>
         <version>${com.levigo.jbig2.levigo-jbig2-imageio.version}</version>
       </dependency>
-
     </dependencies>
   </dependencyManagement>
   
